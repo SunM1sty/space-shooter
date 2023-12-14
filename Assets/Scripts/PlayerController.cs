@@ -5,6 +5,9 @@ using UnityEngine.SceneManagement;
 
 public class PlayerController : MonoBehaviour
 {
+    [SerializeField]
+    private GameManager _gameManager;
+    
     public float speed;
     private float health = 1f;
     private int currentHealth = 1;
@@ -18,7 +21,7 @@ public class PlayerController : MonoBehaviour
     {
         rb = GetComponent<Rigidbody2D>();
     }
-    // Чтобы на предмет не действовала сила притяжения:
+    // пїЅпїЅпїЅпїЅпїЅ пїЅпїЅ пїЅпїЅпїЅпїЅпїЅпїЅпїЅ пїЅпїЅ пїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅ пїЅпїЅпїЅпїЅ пїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅ:
     private void Update()
 
     {
@@ -30,6 +33,7 @@ public class PlayerController : MonoBehaviour
                 currentHealth = 1;
                 SceneManager.LoadScene(0);
                 Time.timeScale = 1;
+                _gameManager.StartGame();
             }
         }
         else
@@ -56,9 +60,11 @@ public class PlayerController : MonoBehaviour
     {
         //pause
         Time.timeScale = 0;
+        _gameManager.GameOver();
 
         return true;
         //Destroy(gameObject);
+        
     }
 }
 

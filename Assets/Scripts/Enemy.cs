@@ -1,43 +1,35 @@
-using System.Collections;
-using System.Collections.Generic;
 using UnityEngine;
-using UnityEngine.SceneManagement;
 public class Enemy : MonoBehaviour
 {
-    public static int enemyCount = 0;
-    public int maxHealth = 2;
-    public int currentHealth;
-    public static int sceneNumber = 0;
-
+    [SerializeField]
+    private GameManager _gameManager;
+    
+    private int _currentHealth;
     private void Start()
     {
-        
-        currentHealth = maxHealth;
-        enemyCount++;
-
+        _currentHealth = 2;
     }
+
+    public int CurrentHealth => _currentHealth;
+
     private void OnTriggerEnter2D(Collider2D hitInfo)
     {
-        //Debug.Log(hitInfo.name); // выводит в кого попали
-        PlayerController player = hitInfo.GetComponent<PlayerController>();
-        if (player != null)
-        {
-            player.TakeDamage(1);
-        }
+        var player = hitInfo.GetComponent<PlayerController>();
+        player?.TakeDamage(1);
     }
     public void TakeDamage(int damage)
     {
-        currentHealth -= damage;
+        _currentHealth -= damage;
 
-        if (currentHealth <= 0)
+        if (_currentHealth == 0)
         { 
             Die();
         }
     }
-    void Die()
+    private void Die()
     {
+        _gameManager.IncreaseScore();
         Destroy(gameObject);
-        enemyCount--;
     }
 }
 
